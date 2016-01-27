@@ -47,6 +47,7 @@
                         <!-- Bouton pour créer une demande d'intervention -->
                         <div class="col-md-4">
                             <input type="button" class="btn btn-primary" role="button" id="talkCancel" value="{{talk}}">
+                            <input type="button" class="btn btn-primary" role="button" id="talk1" value="Talk1">
                         </div>
                         {{#if isAnimator}}
                             <!-- Boutons de gestion du don de temps de parole -->
@@ -59,11 +60,11 @@
                     <div class="row" id="speech-list">
                         <div style="margin-top:10px"></div>
                         {{#each speeches}}
-                            <div class="speech-item {{#if status}}active{{/if}}">
+                            <div class="speech-item {{#if isOngoing}}active{{/if}}">
                               <div style="margin-bottom:-10px; position:relative;">
                                   <!-- Liste des interventions -->
                                   <div class="list-group">
-                                      <div class="list-group-item{{#if status}} active{{/if}}">
+                                      <div class="list-group-item{{#if isOngoing}} active{{/if}}">
                                           <h4 class="list-group-item-heading">
                                             {{user}}
                                             {{#if isTimeNull time}}

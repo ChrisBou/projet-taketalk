@@ -1,5 +1,5 @@
 var timerId = 0;
-
+var rank1 = 0;
 //Initialisation de la fonction de tri par drag'n'drop des speech
 var sortableList;
 function computeSortable(element) {
@@ -53,6 +53,32 @@ Template.meeting.rendered = function () {
   
 /** The events that meeting template contains */
 Template.meeting.events({
+    'click #talk1': function(){
+        var minutesLeft = Math.floor(0 / 60);
+        var secondsLeft = 0 % 60;
+        var minutes = Math.floor(60 / 60);
+        var seconds = 60 % 60;
+
+        if(secondsLeft < 10) {
+            secondsLeft = "0" + secondsLeft;
+        }
+        if(seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        Speeches.insert({
+            user: Session.get("userId").name,
+            meeting: Session.get("meetingId"),
+            subject: "T",
+            status: "pending",
+            isOngoing: status == "ongoing",
+            time: minutes + ":" + seconds,
+            timeLeft: minutesLeft + ":" + secondsLeft,
+            timeString: "1",
+            orderChoose: "Test",
+            rank: rank1++
+        });
+    },
     /** A click on talk opens the lineup page */
     'click #talkCancel': function(e) {
         if(e.target.value == "Talk") {
@@ -135,10 +161,10 @@ Template.meeting.events({
 
     /** A click on closeMeeting closes the meeting */
     'click #closeMeeting': function() {
-        Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
+        /*Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
         Session.set("meetingId", "");
-        Session.set("userId", "");
-        Router.go("end");
+        Session.set("userId", "");*/
+        Router.go('/end/' + Session.get("meetingId"));
     },
 
     //Ajout d'un nouveau champ de saisie lorsqu'un caractère est renseigné

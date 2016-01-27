@@ -6,13 +6,20 @@
                 <div class="panel-heading"><span class="title">Thank you for having choose TakeTalk!</span></div>
                 <div class="panel-body">
                     <p>Here a summary of what happened during this meeting</p>
+                    {{#if isReportLink}}
+                            <!-- Lien du document collaboratif -->
+                            <div>
+                                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
+                            </div>
+                     {{/if}}
+                     <button type="button" class="btn btn-danger" role="button" id="exit">Exit</button>
                     <!--
                     Endroit pour afficher les statistiques de fin de meeting et autres informations
                         + Temps de parole de chaque participant
                         + Temps de discussion pour chaque sujet
                         + Le lien du document collaboratif
                         + Export excel des stats
-                        + Résultat du vote pour chaque sujet
+                        + Rï¿½sultat du vote pour chaque sujet
                         .....
                     -->
                 </div>
