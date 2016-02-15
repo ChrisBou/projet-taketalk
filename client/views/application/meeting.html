@@ -77,12 +77,20 @@
                                                     {{/if}}
                                                 </div>
                                                 <div id="sliderSpeech" class="col-md-4">
-                                                    <input id="{{_id}}" class="slider" name="slider" type="range" min="0" max="15" value="0" step="5" onchange='showValue(this.value, this.id)' />
+                                                    <input id="{{_id}}" class="slider" name="slider" type="range" min="0" max="15" value="0" step="5" onchange='showValueSlider(this.value, this.id)' />
                                                 </div>
                                                 <span id="range{{_id}}" >0</span>
                                           </h4>
+                                          <p class="list-group-item-text" style="float:left;margin-right: 5px">
+                                              Subject:
+                                          </p>
+                                            <select name="orderList" id="{{_id}}" onchange='showValueSelect(this, this.id)'>
+                                                <option value="nothingL"></option>
+                                                {{#each ordres}}
+                                                    <option value="{{ordre}}L">{{ordre}}</option>
+                                                {{/each}}
+                                            </select>
                                           <p class="list-group-item-text">
-                                              Subject: {{orderChoose}}
                                               {{#if isSubject _id}}
                                                   <br/>Keywords: {{subject}}
                                               {{/if}}
@@ -251,5 +259,5 @@
 </template>
 
 <template name="parole">
-    <span>{{order}} : {{displayTime time}}</span><br/>
+    <span>{{order}} : {{displayTime timeTalk}} </span><br/>
 </template>

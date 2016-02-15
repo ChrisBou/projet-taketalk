@@ -42,11 +42,16 @@ function computeSortable(element) {
     })
 }
 
-showValue = function(val, id){
-    console.log(id);
+showValueSlider = function(val, id){
     document.getElementById("range"+id).innerHTML = val;
 
     Speeches.update(id, {$set: {time: val*60}});
+};
+showValueSelect = function(el, id){
+    var idx = el.selectedIndex;
+    var val=el.options[idx].innerHTML;
+
+    Speeches.update(id, {$set: {orderChoose: val}});
 };
 
 //Appel de la fonction d'initialisation de tri par drag'n'drop à la fin du rendu de la page
@@ -106,28 +111,39 @@ Template.meeting.events({
                 var time = 1;
 
                 //Incrémentation du compteur associé a l'ordre du speech
-                if (user.paroles === undefined) {
-                    paroles.push({"order": currentSpeech.orderChoose, "time": 1});
+                if (user.paroles == undefined) {
+                    console.log("undefined");
+                    paroles.push({"order": currentSpeech.orderChoose, "time": 1, "timeTalk": 0});
                 } else {
+                    console.log("else");
                     var paroleFound = false;
                     paroles = user.paroles;
                     paroles.forEach(function (el) {
+                        console.log("else foreach");
                         if (el['order'] == currentSpeech.orderChoose) {
                             paroleFound = true;
                             el['time'] = parseInt(el['time'])+1;
                         }
                     });
                     if (!paroleFound) {
-                        paroles.push({"order": currentSpeech.orderChoose, "time": 1});
+                        console.log("else - if");
+                        paroles.push({"order": currentSpeech.orderChoose, "time": 1, "timeTalk": 0});
                     }
                 }
                 Users.update(user._id,  {$set: {paroles: paroles}});
-
+                console.log("user updated");
                 //Update du temps restant du speech
                 Speeches.update(
                     currentSpeech._id,
                     {$set: {timeLeft: currentSpeech.timeLeft+1}}
                 );
+
+                paroles.forEach(function (el) {
+                    if (el['order'] == currentSpeech.orderChoose) {
+                        el['timeTalk'] = currentSpeech.timeLeft+1;
+                    }
+                });
+                Users.update(user._id,  {$set: {paroles: paroles}});
                 
                 //Update du statut du speech si celui ci est terminé
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
@@ -408,18 +424,15 @@ Template.meeting.helpers ({
 
 
 Template.parole.helpers ({
-    displayTime: function(time) {
-        var response;
-        if (time < 60) {
-            response = time +' secondes';
-        } else {
-            amount = Math.floor(parseInt(time)/60);
-            response =  amount+' minute';
-            if (amount > 1) {
-                response += 's';
-            }
+    displayTime: function(nb){
+        var minutes = Math.floor(nb / 60);
+        var seconds = nb % 60;
+
+        if(seconds < 10) {
+            seconds = "0" + seconds;
         }
-        return response;
+
+        return minutes+":"+seconds;
     }
 });
 /*
