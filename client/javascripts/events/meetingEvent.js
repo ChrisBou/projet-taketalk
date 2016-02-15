@@ -42,6 +42,13 @@ function computeSortable(element) {
     })
 }
 
+showValue = function(val, id){
+    console.log(id);
+    document.getElementById("range"+id).innerHTML = val;
+
+    Speeches.update(id, {$set: {time: val*60}});
+};
+
 //Appel de la fonction d'initialisation de tri par drag'n'drop à la fin du rendu de la page
 Template.meeting.rendered = function () {
     sortableList = this.$('#speech-list');
@@ -60,13 +67,13 @@ Template.meeting.events({
         Speeches.insert({
             user: Users.findOne({_id: Session.get("userId")}),
             meeting: Session.get("meetingId"),
-            subject: "T",
+            subject: "",
             status: "pending",
             isOngoing: false,
             time: timeN,
             timeLeft: timeLeftN,
             timeString: "1",
-            orderChoose: "Test",
+            orderChoose: "",
             rank: rank1++
         });
     },
@@ -314,7 +321,6 @@ Template.meeting.events({
 });
 
 Template.meeting.helpers ({
-
     convertTime: function(nb){
         var minutes = Math.floor(nb / 60);
         var seconds = nb % 60;

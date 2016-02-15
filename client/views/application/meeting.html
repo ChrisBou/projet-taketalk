@@ -59,7 +59,7 @@
                             </div>
                         {{/if}}
                     </div>
-                    <div class="row" id="speech-list">
+                    <div class="row" id=""><!--id="speech-list"-->
                         <div style="margin-top:10px"></div>
                         {{#each speeches}}
                             <div class="speech-item {{#if isOngoing}}active{{/if}}">
@@ -68,7 +68,7 @@
                                   <div class="list-group">
                                       <div class="list-group-item{{#if isOngoing}} active{{/if}}">
                                           <h4 class="list-group-item-heading">
-                                                <div id="userSpeech" >
+                                                <div id="userSpeech" class="col-md-8">
                                                     {{user.name}}
                                                     {{#if isTimeNull time}}
                                                         {{timeString}}
@@ -77,11 +77,11 @@
                                                     {{/if}}
                                                 </div>
                                                 <div id="sliderSpeech" class="col-md-4">
-                                                    <input type="range" value="0" max="10" min="0" step="2">
+                                                    <input id="{{_id}}" class="slider" name="slider" type="range" min="0" max="15" value="0" step="5" onchange='showValue(this.value, this.id)' />
                                                 </div>
+                                                <span id="range{{_id}}" >0</span>
                                           </h4>
                                           <p class="list-group-item-text">
-                                          {{status}}
                                               Subject: {{orderChoose}}
                                               {{#if isSubject _id}}
                                                   <br/>Keywords: {{subject}}
