@@ -45,9 +45,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <!-- Bouton pour créer une demande d'intervention -->
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <input type="button" class="btn btn-primary" role="button" id="talkCancel" value="{{talk}}">
-                            <input type="button" class="btn btn-primary" role="button" id="talk1" value="Talk1">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-primary" role="button" id="talk1" value="+Talk">
                         </div>
                         {{#if isAnimator}}
                             <!-- Boutons de gestion du don de temps de parole -->
@@ -66,14 +68,20 @@
                                   <div class="list-group">
                                       <div class="list-group-item{{#if isOngoing}} active{{/if}}">
                                           <h4 class="list-group-item-heading">
-                                            {{user}}
-                                            {{#if isTimeNull time}}
-                                                {{timeString}}
-                                            {{else}}
-                                                ({{timeLeft}}/{{time}})
-                                            {{/if}}
+                                                <div id="userSpeech" >
+                                                    {{user.name}}
+                                                    {{#if isTimeNull time}}
+                                                        {{timeString}}
+                                                    {{else}}
+                                                        ({{convertTime timeLeft}}/{{convertTime time}})
+                                                    {{/if}}
+                                                </div>
+                                                <div id="sliderSpeech" class="col-md-4">
+                                                    <input type="range" value="0" max="10" min="0" step="2">
+                                                </div>
                                           </h4>
                                           <p class="list-group-item-text">
+                                          {{status}}
                                               Subject: {{orderChoose}}
                                               {{#if isSubject _id}}
                                                   <br/>Keywords: {{subject}}

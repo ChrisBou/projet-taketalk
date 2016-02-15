@@ -54,26 +54,17 @@ Template.meeting.rendered = function () {
 /** The events that meeting template contains */
 Template.meeting.events({
     'click #talk1': function(){
-        var minutesLeft = Math.floor(0 / 60);
-        var secondsLeft = 0 % 60;
-        var minutes = Math.floor(60 / 60);
-        var seconds = 60 % 60;
-
-        if(secondsLeft < 10) {
-            secondsLeft = "0" + secondsLeft;
-        }
-        if(seconds < 10) {
-            seconds = "0" + seconds;
-        }
+        var timeN = 60;
+        var timeLeftN = 0;
 
         Speeches.insert({
-            user: Session.get("userId").name,
+            user: Users.findOne({_id: Session.get("userId")}),
             meeting: Session.get("meetingId"),
             subject: "T",
             status: "pending",
-            isOngoing: status == "ongoing",
-            time: minutes + ":" + seconds,
-            timeLeft: minutesLeft + ":" + secondsLeft,
+            isOngoing: false,
+            time: timeN,
+            timeLeft: timeLeftN,
             timeString: "1",
             orderChoose: "Test",
             rank: rank1++
@@ -91,21 +82,19 @@ Template.meeting.events({
     'click #waitProceed': function(e) {
         //Arret du timer
         if(e.target.value == "Wait") {
+            var s1 = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id;
             Meteor.clearInterval(timerId);
-            Speeches.update(
-                Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
-                {$set: {status: "pending"}}
-            );
+            Speeches.update(s1, {$set: {status: "pending"}});
+            Speeches.update(s1, {$set: {isOngoing: false}});
         } else {
-            Speeches.update(
-                Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"}, {sort: {rank: 1}})._id,
-                {$set: {status: "ongoing"}}
-            );
+            var s1 = Speeches.findOne({meeting: Session.get("meetingId"), status: "pending"}, {sort: {rank: 1}})._id;
+            Speeches.update(s1, {$set: {status: "ongoing"}});
+            Speeches.update(s1, {$set: {isOngoing: true}});
 
             //Lancement du timer
             timerId = Meteor.setInterval(function() {
                 var currentSpeech = Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"});
-                var user = Users.findOne({_id:currentSpeech.user});
+                var user = currentSpeech.user/*Users.findOne({_id: currentSpeech.user._id})*/;
                 var paroles = [];
                 var time = 1;
 
@@ -125,14 +114,14 @@ Template.meeting.events({
                         paroles.push({"order": currentSpeech.orderChoose, "time": 1});
                     }
                 }
-
                 Users.update(user._id,  {$set: {paroles: paroles}});
 
                 //Update du temps restant du speech
                 Speeches.update(
                     currentSpeech._id,
-                    {$set: {timeLeft: Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft + 1}}
+                    {$set: {timeLeft: currentSpeech.timeLeft+1}}
                 );
+                
                 //Update du statut du speech si celui ci est terminé
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
                     Speeches.update(
@@ -156,7 +145,8 @@ Template.meeting.events({
     /** A click on next goes to the next speech */
     'click #next': function() {
         Meteor.clearInterval(timerId);
-        Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});
+        Speeches.remove(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id);
+        /*Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});*/
     },
 
     /** A click on closeMeeting closes the meeting */
@@ -324,6 +314,34 @@ Template.meeting.events({
 });
 
 Template.meeting.helpers ({
+
+    convertTime: function(nb){
+        var minutes = Math.floor(nb / 60);
+        var seconds = nb % 60;
+
+        if(seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        return minutes+":"+seconds;
+    },
+
+    proceed: function(){
+        var proceed1 = "Wait";
+        if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}) == undefined) {
+          proceed1 = "Proceed";
+        }
+        return proceed1;
+    },
+
+    disabled :function(){
+        var disabled1 = "";
+        if(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}}) == undefined) {
+          disabled1 = "disabled";
+        }
+        return disabled1;
+    },
+
     //Retourne l'ordre du jour et les temps estimés
     ordres: function () {
         var meeting = Meetings.findOne({_id: Session.get("meetingId")});
@@ -379,7 +397,7 @@ Template.meeting.helpers ({
     //Retourne les speech triés par rang
 	 sortedSpeeches: function() {
       return Speeches.find({}, {sort: {rank: 1}});
-    }
+    },
 });
 
 
