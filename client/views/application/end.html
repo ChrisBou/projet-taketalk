@@ -1,17 +1,28 @@
 <template name="end">
 <div class="main-content">
     <div class="row">
-        <div class="col-xs-12 col-md-6 col-md-offset-3">
+        <div class="col-xs-12 col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading"><span class="title">Thank you for having choose TakeTalk!</span></div>
                 <div class="panel-body">
-                    <p>Here a summary of what happened during this meeting</p>
                     {{#if isReportLink}}
                             <!-- Lien du document collaboratif -->
                             <div>
-                                <p><a href="{{reportLink}}" title="Collaborative document" target="_blank">Link of the report</a></p>
+                                <iframe class="col-md-12" src="{{reportLink}}/pub?embedded=true" style="height:50em"></iframe>
                             </div>
                      {{/if}}
+
+                     {{#each users}}
+                        <h4 class="list-group-item-heading">{{name}}</h4>
+                        <p>
+                            {{#each paroles}}
+                                {{>parole}}
+                            {{/each}}
+                            <span>Total time  : {{totalTalk name}} </span>
+                        </p>
+
+                     {{/each}}
+
                      <button type="button" class="btn btn-danger" role="button" id="exit">Exit</button>
                     <!--
                     Endroit pour afficher les statistiques de fin de meeting et autres informations
@@ -27,4 +38,8 @@
         </div>
     </div>
 </div>
+</template>
+
+<template name="parole">
+    <span>{{order}} : {{displayTime timeTalk}} </span><br/>
 </template>
