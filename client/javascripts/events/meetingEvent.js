@@ -42,16 +42,33 @@ function computeSortable(element) {
     })
 }
 
-showValueSlider = function(val, id){
-    document.getElementById("range"+id).innerHTML = val;
+showValueSlider = function(el, id){
+    if(el.name == Session.get("userId")){
+        document.getElementById("range"+id).innerHTML = el.value;
 
-    Speeches.update(id, {$set: {time: val*60}});
+        Speeches.update(id, {$set: {time: el.value*60}});
+    }
 };
 showValueSelect = function(el, id){
-    var idx = el.selectedIndex;
-    var val=el.options[idx].innerHTML;
+    if(el.name == Session.get("userId")){
+        var idx = el.selectedIndex;
+        var val = el.options[idx].innerHTML;
 
-    Speeches.update(id, {$set: {orderChoose: val}});
+        Speeches.update(id, {$set: {orderChoose: val}});
+    }    
+};
+showValueKeyword = function(el, id){
+    if(el.name == Session.get("userId")){
+        var val = el.value;
+        var s = Speeches.findOne(id).subject;
+
+        if(s != "keywords")
+            Speeches.update(id, {$set: {subject: s+", "+val}});
+        else
+            Speeches.update(id, {$set: {subject: val}});
+
+        el.value = "";
+    }
 };
 
 //Appel de la fonction d'initialisation de tri par drag'n'drop à la fin du rendu de la page
@@ -66,18 +83,38 @@ Template.meeting.rendered = function () {
 /** The events that meeting template contains */
 Template.meeting.events({
     'click #talk1': function(){
-        var timeN = 60;
+        var timeN = 0;
         var timeLeftN = 0;
 
         Speeches.insert({
             user: Users.findOne({_id: Session.get("userId")}),
             meeting: Session.get("meetingId"),
-            subject: "",
+            subject: "keywords",
             status: "pending",
             isOngoing: false,
             time: timeN,
             timeLeft: timeLeftN,
-            timeString: "1",
+            timeString: "0",
+            orderChoose: "",
+            rank: rank1++
+        });
+    },
+
+    'click .talk2': function(event){
+        event.preventDefault();
+        console.log(event);
+        var timeN = 0;
+        var timeLeftN = 0;
+
+        Speeches.insert({
+            user: Users.findOne({name: event.target.id}),
+            meeting: Session.get("meetingId"),
+            subject: "keywords",
+            status: "pending",
+            isOngoing: false,
+            time: timeN,
+            timeLeft: timeLeftN,
+            timeString: "0",
             orderChoose: "",
             rank: rank1++
         });
@@ -145,14 +182,14 @@ Template.meeting.events({
                 });
                 Users.update(user._id,  {$set: {paroles: paroles}});
                 
-                //Update du statut du speech si celui ci est terminé
+                /*Update du statut du speech si celui ci est terminé
                 if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
                     Speeches.update(
                         Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
                         {$set: {status: "done"}}
                     );
                     Meteor.clearInterval(timerId);
-                }
+                }*/
             } , 1000);
         }
         //Rafraichi la fonction de drag'n'drop
@@ -423,7 +460,7 @@ Template.meeting.helpers ({
 });
 
 
-Template.parole.helpers ({
+Template.parole1.helpers ({
     displayTime: function(nb){
         var minutes = Math.floor(nb / 60);
         var seconds = nb % 60;

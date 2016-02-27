@@ -46,10 +46,9 @@
                     <div class="row">
                         <!-- Bouton pour créer une demande d'intervention -->
                         <div class="col-md-2">
-                            <input type="button" class="btn btn-primary" role="button" id="talkCancel" value="{{talk}}">
-                        </div>
-                        <div class="col-md-2">
-                            <input type="button" class="btn btn-primary" role="button" id="talk1" value="+Talk">
+                            <button type="button" class="btn btn-primary" id="talk1">
+                                <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                            </button>
                         </div>
                         {{#if isAnimator}}
                             <!-- Boutons de gestion du don de temps de parole -->
@@ -77,24 +76,17 @@
                                                     {{/if}}
                                                 </div>
                                                 <div id="sliderSpeech" class="col-md-4">
-                                                    <input id="{{_id}}" class="slider" name="slider" type="range" min="0" max="15" value="0" step="5" onchange='showValueSlider(this.value, this.id)' />
+                                                    <input id="{{_id}}" class="slider" name="{{user._id}}" type="range" min="0" max="15" value="0" step="5" onchange='showValueSlider(this, this.id)'/>
                                                 </div>
                                                 <span id="range{{_id}}" >0</span>
                                           </h4>
-                                          <p class="list-group-item-text" style="float:left;margin-right: 5px">
-                                              Subject:
-                                          </p>
-                                            <select name="orderList" id="{{_id}}" onchange='showValueSelect(this, this.id)'>
-                                                <option value="nothingL"></option>
+                                            <select name="{{user._id}}" id="{{_id}}" class="form-control" onchange='showValueSelect(this, this.id)' style="width:93%; border: 1px solid #ddd; color: #555; margin-bottom: 1%">
+                                                <option value="nothingL">Subject</option>
                                                 {{#each ordres}}
                                                     <option value="{{ordre}}L">{{ordre}}</option>
                                                 {{/each}}
                                             </select>
-                                          <p class="list-group-item-text">
-                                              {{#if isSubject _id}}
-                                                  <br/>Keywords: {{subject}}
-                                              {{/if}}
-                                          </p>
+                                                <input type="text" name="{{user._id}}" class="form-control" id="{{_id}}" placeholder="{{subject}}" onchange='showValueKeyword(this, this.id)' style="width:93%; border: 1px solid #ddd; color: #555">
                                           {{#if isAnimator}}
                                               <!-- Actions possibles en rapport avec une intervention -->
                                               <div style="position:absolute; left:365px; bottom:38px;">
@@ -125,12 +117,15 @@
                         {{#each users}}
                         <!-- Liste des intervenant -->
                             <div class="col-md-11" style="padding-right:0; margin-bottom:-10px">
-                                <div class="list-group">
-                                    <div class="list-group-item">
-                                        <h4 class="list-group-item-heading">{{name}}</h4>
+                                <div class="list-group" >
+                                    <div class="list-group-item" style="padding-bottom:20px">
+                                        <button type="button" id="{{name}}" name="" class="btn btn-primary talk2" style="float:left">
+                                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+                                        </button>
+                                        <h4 class="list-group-item-heading" style="padding-left:54px">{{name}}</h4>
                                         <p>
                                             {{#each paroles}}
-                                                {{>parole}}
+                                                {{>parole1}}
                                             {{/each}}
                                         </p>
                                     </div>
@@ -258,6 +253,6 @@
     <h4 class="list-group-item-heading"><b>{{ordre}}</b> - {{#if time}}{{time}} min estimated{{else}} no duration scheduled{{/if}}</h4>
 </template>
 
-<template name="parole">
+<template name="parole1">
     <span>{{order}} : {{displayTime timeTalk}} </span><br/>
 </template>

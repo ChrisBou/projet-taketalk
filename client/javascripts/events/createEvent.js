@@ -94,7 +94,7 @@ Template.create.events({
         localStorage.setItem(meetingId, meetingId);
 
         //Définition du corp du mail envoyé à l'animateur et aux invités
-        var emailBody = 'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n';
+        var emailBody = 'Here is the link for the meeting : taketalk.meteor.com/join/' + meetingId + '\n';
         emailBody += (e.target.reportLink.value !== undefined) ? 'Here is the link of the report : ' + e.target.reportLink.value + '\n\n' : "";
         emailBody += 'If you quit the meeting and want to return, here is the password : ' + pass;
 

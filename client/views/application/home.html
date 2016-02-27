@@ -7,9 +7,12 @@
                 <div class="panel-body">
                     <p>With TakeTalk manage your contributors' speech time to make the best out of your meetings!</p>
                     <div class="spacer text-right">
-                        <button type="button" class="btn btn-space btn-primary btn-rounded btn-lg" id="open">
-                            <a style="color:#fff" href="{{pathFor 'create'}}"><i class="icon icon-left s7-users"></i> Open a meeting</a>
+                        <button type="button" class="btn btn-space btn-primary btn-rounded btn-lg" id="new">
+                            <a style="color:#fff" href="{{pathFor 'create'}}"><i class="icon icon-left s7-users"></i> Create a meeting</a>
                         </button>
+                    </div>
+                    <div class="spacer text-right">
+                        <input type="text" name="openMeeting" class="form-control" placeholder="Write Meeting id and press ENTER" onchange='openMeeting(this)'>
                     </div>
                 </div>
             </div>
