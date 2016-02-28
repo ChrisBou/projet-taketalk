@@ -42,13 +42,14 @@ function computeSortable(element) {
     })
 }
 
+//changement de la valeur du slider
 showValueSlider = function(el, id){
     if(el.name == Session.get("userId")){
-        document.getElementById("range"+id).innerHTML = el.value;
-
         Speeches.update(id, {$set: {time: el.value*60}});
     }
 };
+
+//changement de la valeur du select
 showValueSelect = function(el, id){
     if(el.name == Session.get("userId")){
         var idx = el.selectedIndex;
@@ -57,6 +58,8 @@ showValueSelect = function(el, id){
         Speeches.update(id, {$set: {orderChoose: val}});
     }    
 };
+
+//changement de la valeur du text
 showValueKeyword = function(el, id){
     if(el.name == Session.get("userId")){
         var val = el.value;
@@ -82,6 +85,7 @@ Template.meeting.rendered = function () {
   
 /** The events that meeting template contains */
 Template.meeting.events({
+    //creation d'un speech (bouton de la session)
     'click #talk1': function(){
         var timeN = 0;
         var timeLeftN = 0;
@@ -100,6 +104,7 @@ Template.meeting.events({
         });
     },
 
+    //créaton d'un speech (bouton dans participant)
     'click .talk2': function(event){
         event.preventDefault();
         console.log(event);
@@ -181,15 +186,6 @@ Template.meeting.events({
                     }
                 });
                 Users.update(user._id,  {$set: {paroles: paroles}});
-                
-                /*Update du statut du speech si celui ci est terminé
-                if(Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).timeLeft == Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"}).time){
-                    Speeches.update(
-                        Speeches.findOne({meeting: Session.get("meetingId"), status: "ongoing"})._id,
-                        {$set: {status: "done"}}
-                    );
-                    Meteor.clearInterval(timerId);
-                }*/
             } , 1000);
         }
         //Rafraichi la fonction de drag'n'drop
@@ -206,14 +202,10 @@ Template.meeting.events({
     'click #next': function() {
         Meteor.clearInterval(timerId);
         Speeches.remove(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id);
-        /*Speeches.update(Speeches.findOne({meeting: Session.get("meetingId"), status: {$in: ["ongoing", "pending"]}})._id, {$set: {status: "done"}});*/
     },
 
     /** A click on closeMeeting closes the meeting */
     'click #closeMeeting': function() {
-        /*Meetings.update(Session.get("meetingId"), {$set: {status: "done"}});
-        Session.set("meetingId", "");
-        Session.set("userId", "");*/
         Router.go('/end/' + Session.get("meetingId"));
     },
 
@@ -306,7 +298,6 @@ Template.meeting.events({
             //console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
         }
 
-        //
         $(".participantEmailInput[rank!='1']").remove();
         participantsInputs.val("");
     },
@@ -374,6 +365,7 @@ Template.meeting.events({
 });
 
 Template.meeting.helpers ({
+    //convertir le temps en min:sec
     convertTime: function(nb){
         var minutes = Math.floor(nb / 60);
         var seconds = nb % 60;
@@ -461,6 +453,7 @@ Template.meeting.helpers ({
 
 
 Template.parole1.helpers ({
+    //afficher le temps en min:sec
     displayTime: function(nb){
         var minutes = Math.floor(nb / 60);
         var seconds = nb % 60;

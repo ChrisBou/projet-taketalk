@@ -52,7 +52,7 @@
                         </div>
                         {{#if isAnimator}}
                             <!-- Boutons de gestion du don de temps de parole -->
-                            <div class="col-md-8 text-right">
+                            <div class="col-md-10 text-right">
                                 <input type="button" class="btn btn-primary" role="button" id="waitProceed" value="{{proceed}}" {{disabled}}>
                                 <input type="button" class="btn btn-primary" role="button" id="next" value="Next" {{disabled}}>
                             </div>
@@ -75,21 +75,21 @@
                                                         ({{convertTime timeLeft}}/{{convertTime time}})
                                                     {{/if}}
                                                 </div>
-                                                <div id="sliderSpeech" class="col-md-4">
-                                                    <input id="{{_id}}" class="slider" name="{{user._id}}" type="range" min="0" max="15" value="0" step="5" onchange='showValueSlider(this, this.id)'/>
-                                                </div>
-                                                <span id="range{{_id}}" >0</span>
+                                                <!--Slider speech time-->
+                                                <input id="{{_id}}" class="slider" name="{{user._id}}" type="range" min="0" max="15" value="0" step="5" onchange='showValueSlider(this, this.id)' style="width:30%; margin-left:20%"/>
                                           </h4>
+                                            <!--Select orders-->
                                             <select name="{{user._id}}" id="{{_id}}" class="form-control" onchange='showValueSelect(this, this.id)' style="width:93%; border: 1px solid #ddd; color: #555; margin-bottom: 1%">
                                                 <option value="nothingL">Subject</option>
                                                 {{#each ordres}}
                                                     <option value="{{ordre}}L">{{ordre}}</option>
                                                 {{/each}}
                                             </select>
-                                                <input type="text" name="{{user._id}}" class="form-control" id="{{_id}}" placeholder="{{subject}}" onchange='showValueKeyword(this, this.id)' style="width:93%; border: 1px solid #ddd; color: #555">
+                                            <!--Text keywords-->
+                                            <input type="text" name="{{user._id}}" class="form-control" id="{{_id}}" placeholder="{{subject}}" onchange='showValueKeyword(this, this.id)' style="width:93%; border: 1px solid #ddd; color: #555">
                                           {{#if isAnimator}}
                                               <!-- Actions possibles en rapport avec une intervention -->
-                                              <div style="position:absolute; left:365px; bottom:38px;">
+                                              <div style="position:absolute; left:92%; top:5%;">
                                                   <div class="input-group speechRemove" speech-id="{{_id}}">
                                                       <button type="button" class="btn btn-danger btn-xs remove-speech">
                                                           <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -124,8 +124,8 @@
 	                                            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
 	                                        </button>
 	                                        {{/if}}
-                                        <h4 class="list-group-item-heading" style="padding-left:54px">{{name}}</h4>
-                                        <p>
+                                        <h4 class="list-group-item-heading" style="padding-left:15%">{{name}}</h4>
+                                        <p style="margin-top:7%">
                                             {{#each paroles}}
                                                 {{>parole1}}
                                             {{/each}}

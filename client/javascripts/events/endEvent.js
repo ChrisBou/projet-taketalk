@@ -5,6 +5,7 @@ Template.end.helpers ({
         return meeting.reportLink;
     },
 
+    //retourne le temps de parole total 
     totalTalk: function (name) {
         var i = 0;
         var user1;
@@ -42,6 +43,7 @@ Template.end.events({
 });
 
 Template.parole.helpers ({
+    //affiche le temps en min:sec
     displayTime: function(nb){
         var minutes = Math.floor(nb / 60);
         var seconds = nb % 60;

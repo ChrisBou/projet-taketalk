@@ -11,8 +11,11 @@
                                 <iframe class="col-md-12" src="{{reportLink}}/pub?embedded=true" style="height:50em"></iframe>
                             </div>
                      {{/if}}
-
+                </div>
+                <div class="panel-heading"><span class="title">Speeches times resume</span></div>
+                <div class="panel-body">     
                      {{#each users}}
+                     <div class="col-md-3">
                         <h4 class="list-group-item-heading">{{name}}</h4>
                         <p>
                             {{#each paroles}}
@@ -20,20 +23,10 @@
                             {{/each}}
                             <span>Total time  : {{totalTalk name}} </span>
                         </p>
-
+                      </div>  
                      {{/each}}
-
-                     <button type="button" class="btn btn-danger" role="button" id="exit">Exit</button>
-                    <!--
-                    Endroit pour afficher les statistiques de fin de meeting et autres informations
-                        + Temps de parole de chaque participant
-                        + Temps de discussion pour chaque sujet
-                        + Le lien du document collaboratif
-                        + Export excel des stats
-                        + R�sultat du vote pour chaque sujet
-                        .....
-                    -->
                 </div>
+                <button type="button" class="btn btn-danger" role="button" id="exit" style="margin-left: 93%; margin-bottom: 2%">Exit</button>
             </div>
         </div>
     </div>
