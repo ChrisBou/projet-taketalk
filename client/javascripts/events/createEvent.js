@@ -114,7 +114,7 @@ Template.create.events({
 
         //Envoi des mails aux invités
         for(var i = 0; i < participantsEmails.length; i++) {
-            userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
+            //userId = Users.insert({name: 'participant pending', email: participantsEmails[i], type: "participant", status: "pending", meeting: meetingId});
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
                 'You are invited to a session of TakeTalk. \n\n' + emailBody
             );

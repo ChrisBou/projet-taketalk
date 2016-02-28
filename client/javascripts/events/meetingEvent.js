@@ -279,23 +279,14 @@ Template.meeting.events({
 
         var userId = "";
         for(var i = 0; i < participantsEmails.length; i++) {
-            //Création des utilisateurs invités
-            userId = Users.insert({
-                name: 'participant pending',
-                email: participantsEmails[i],
-                type: "participant",
-                status: "pending",
-                meeting: meetingId
-            });
-
             //Envoi d'un mail aux invités pour qu'ils puissent rejoindre le meeting
             Meteor.call('sendEmail', participantsEmails[i], 'noreply@taketalk.com', 'TakeTalk invitation',
                 'You are invited to a session of TakeTalk. \n\n' +
-                'Please follow this link : taketalk.meteor.com/join/' + meetingId + '/' + userId + '\n' +
+                'Please follow this link : taketalk.meteor.com/join/' + meetingId + '\n' +
                 'Here is the link of the report : ' + meeting.reportLink + '\n\n' +
                 'If you quit the meeting and want to return here is the password : ' + meeting.password
             );
-            //console.log('taketalk.meteor.com/join/' + meetingId + '/' + userId + ' -> ' + meeting.password);
+            console.log('taketalk.meteor.com/join/' + meetingId + ' -> ' + meeting.password);
         }
 
         $(".participantEmailInput[rank!='1']").remove();

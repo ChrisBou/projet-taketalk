@@ -3,8 +3,14 @@
     <div class="am-scroller nano has-scrollbar">
         <div class="nano-content" tabindex="0" style="right: -17px;">
             <div class="content">
-                <h2>Menu</h2>
-                <p>This is the <b>aside</b> content, you can easily add content and components to this element.</p>
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation"><a href="#home">Home</a></li>
+                    <li role="presentation"><a href="#createM">Create meeting</a></li>
+                    <li role="presentation"><a href="#interface">Interface</a></li>
+                    <li role="presentation"><a href="#addP">Add participants</a></li>
+                    <li role="presentation"><a href="#joinM">Join meeting</a></li>
+                    <li role="presentation"><a href="#endM">End Meeting</a></li>
+                </ul>
             </div>
         </div>
         <div class="nano-pane" style="display: none;"><div class="nano-slider" style="height: 268px; transform: translate(0px, 0px);"></div></div></div>
@@ -16,10 +22,123 @@
     <div class="row">
         <div class="col-xs-12 col-md-8 col-md-offset-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><span class="title">How to use TakeTalk</span></div>
+                <div class="panel-heading" id="home"><span class="title">Home</span></div>
                 <div class="panel-body">
-                    <p>List of the functonalities</p>
-                    <!-- Ici un possible tutoriel si vous avez le temps de vous ennuyer -->
+                    <p>
+                        Deux choix: 
+                    </p>
+                    <p>
+                        Mettre un ID de meeting pour joindre un meeting existant et cliquer sur <code>ENTER</code>
+                    </p>
+                    <p>
+                        Créer un nouveau meeting en cliquant sur <code>Create a meeting</code> 
+                    </p>
+                    <img src="img/1.PNG" class="img-responsive" alt="Responsive image">
+                </div>
+                <div class="panel-heading" id="createM"><span class="title">Create Meeting</span></div>
+                <div class="panel-body col-md-12">
+                    <p>
+                        Remplir les champs spécifiés
+                    </p>
+                    <img src="img/2.PNG" class="img-responsive" alt="Responsive image">
+                    <ul>
+                        <li>Pseudo</li>
+                        <li>Mail</li>
+                        <li>Nom du meeting</li>
+                        <li>Lien du document commun (google document)</li>
+                        <li>Les points à aborder durant le meeting avec leurs durées</li>
+                        <li>Le mail des invités</li>
+                    </ul>
+                </div>
+                <div class="panel-heading" id="interface"><span class="title">Interface</span></div>
+                <div class="panel-body">
+                    <h4>Animateur</h4>
+                    <img src="img/3.PNG" class="img-responsive" alt="Responsive image">
+                    <p>
+                        L'interface se divise en 3 sections:
+                    </p>
+                    <p>
+                        <span class="label label-primary">1</span> Liste des participants
+                    </p>
+                    <p>
+                        <span class="label label-primary">2</span> Liste des paroles et leur gestion
+                    </p>
+                    <p>
+                        <span class="label label-primary">3</span> Les sujets à aborder durant le meeting et le lien du document commun
+                    </p>
+                    <img src="img/4.PNG" class="img-responsive" alt="Responsive image">
+                    <p>
+                        <span class="label label-primary">4</span> Permet de donner un moment de parole à un participant. Affiche une boite dans la section 2
+                    </p>
+                    <p>
+                        <span class="label label-primary">5</span> Définit le temps de parole prévu de l'intervention
+                    </p>
+                    <p>
+                        <span class="label label-primary">6</span> Définit le sujet de l'interventon
+                    </p>
+                    <p>
+                        <span class="label label-primary">7</span> Ajout de mots clés concernant l'intervention
+                    </p>
+                    <p>
+                        <span class="label label-primary">8</span> Lance ou met en pause l'intervention
+                    </p>
+                    <p>
+                        <span class="label label-primary">9</span> Passe la parole à l'intervention suivante 
+                    </p>
+                    <h4>Participant</h4>
+                    <img src="img/9.jpg" class="img-responsive" alt="Responsive image">
+                    <p>
+                        Le participant à des actions limitées à la demande de prise de parole et à en modifier les caractéristiques
+                    </p>
+                    <p>
+                        <span class="label label-primary">10</span>
+                        <span class="label label-primary">11</span> 
+                        <span class="label label-primary">12</span> effectuent respectivement
+                        <span class="label label-primary">5</span>
+                        <span class="label label-primary">6</span>
+                        <span class="label label-primary">7</span>
+                    </p>
+                </div>
+                <div class="panel-heading" id="addP"><span class="title">Add participants</span></div>
+                <div class="panel-body">
+                    <p>
+                        Cliquer sur <code>Invite participants</code>
+                    </p>
+                    <img src="img/5.PNG" class="img-responsive" alt="Responsive image">
+                    <p>
+                        Remplir les champs afin d'envoyer un mail permettant la connexion au meeting de celui-ci
+                    </p>
+                    <p>
+                        Cliquer sur <code>Add local participant</code>
+                    </p>
+                    <p>
+                        Remplir le pseudo. Il est possible de supprimer un participant local
+                    </p>
+                    <img src="img/6.PNG" class="img-responsive" alt="Responsive image">
+                </div>
+                <div class="panel-heading" id="joinM"><span class="title">Join meeting</span></div>
+                <div class="panel-body">
+                    <p>
+                        Remplir les champs
+                    </p>
+                    <img src="img/7.PNG" class="img-responsive" alt="Responsive image">
+                    <ul>
+                        <li>Pseudo</li>
+                        <li>Mot de passe du meeting</li>
+                    </ul>
+                </div>
+                <div class="panel-heading" id="endM"><span class="title">End meeting</span></div>
+                <div class="panel-body">
+                    <p>
+                        Cliquer sur <code>Close meeting</code>
+                    </p>
+                    <img src="img/8.jpg" class="img-responsive" alt="Responsive image">
+                    <p>
+                        <span class="label label-primary">14</span> Possibilité de remplir le document (google document)
+                    </p>
+                    <p>
+                        <span class="label label-primary">13</span> Résumé des interventions de chaque participants
+                    </p>
                 </div>
             </div>
         </div>
